@@ -127,32 +127,32 @@
   /* ==== DAY SELECTOR ==== */
   .day-selector {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
     margin-bottom: 20px;
   }
   .day-btn {
     background: var(--bg-card);
     border: 1px solid var(--border);
     color: var(--text);
-    padding: 12px 8px;
+    padding: 18px 12px;
     font-family: 'Bebas Neue', sans-serif;
     font-size: 13px;
     letter-spacing: 0.1em;
     cursor: pointer;
-    border-radius: 4px;
+    border-radius: 6px;
     transition: all 0.15s;
     text-align: center;
   }
   .day-btn .day-num {
-    font-size: 18px;
+    font-size: 24px;
     color: var(--accent);
     display: block;
   }
   .day-btn .day-label {
-    font-size: 11px;
+    font-size: 12px;
     color: var(--text-dim);
-    margin-top: 2px;
+    margin-top: 4px;
     display: block;
   }
   .day-btn.active {
@@ -915,7 +915,7 @@
     <!-- 今週のプログラム -->
     <div class="roadmap-card">
       <div class="roadmap-card-title">THIS WEEK</div>
-      <div class="roadmap-card-sub">週2日・中3〜4日空ける</div>
+      <div class="roadmap-card-sub">週3回・PUSH/PULL交互（PUSH日の最初にベンチ）</div>
       <div class="warmup-input-row">
         <div class="set-field" style="flex:1;">
           <div class="set-input-label">現在のヘビー日重量 (5×5)</div>
@@ -1041,76 +1041,29 @@
 // ==================== DATA MODEL ====================
 const MENU = {
   1: {
-    name: "ARMS A",
-    label: "腕A",
-    focus: "二頭・三頭 / ストレッチ→ミッド→コントラクト",
+    name: "PUSH",
+    label: "押す",
+    focus: "胸・肩・三頭 / ベンチ100kg最優先",
     exercises: [
-      { id: "incline_db_curl", name: "インクラインダンベルカール", sets: 4, reps: "8-10", target: 14, unit: "片手kg", note: "二頭筋長頭のストレッチ種目" },
-      { id: "barbell_curl", name: "バーベルカール", sets: 4, reps: "8-10", target: 45, unit: "kg", note: "ミッドレンジの王道" },
-      { id: "cable_curl", name: "ケーブルカール", sets: 3, reps: "12-15", target: 17, unit: "片手kg相当", note: "ピーク収縮の仕上げ" },
+      { id: "bench_press", name: "ベンチプレス（メイン）", sets: 5, reps: "5", target: 100, unit: "kg", note: "🎯100kg目標・5×5でDay1ヘビー、Day2は80%でボリューム" },
+      { id: "incline_db_press", name: "インクラインダンベルプレス", sets: 4, reps: "8-10", target: 28, unit: "片手kg", note: "大胸筋上部・Tシャツ映え" },
+      { id: "shoulder_press", name: "ショルダープレス（ダンベル）", sets: 4, reps: "8-10", target: 22, unit: "片手kg", note: "三角筋前部・肩の厚み" },
+      { id: "side_raise", name: "サイドレイズ", sets: 5, reps: "12-15", target: 12, unit: "片手kg", note: "肩幅の要・中部繊維" },
       { id: "lying_tricep_ext", name: "ライイングトライセプスエクステンション", sets: 4, reps: "8-10", target: 35, unit: "EZバーkg", note: "三頭長頭ストレッチ" },
-      { id: "cable_pushdown", name: "ケーブルプレスダウン", sets: 4, reps: "10-12", target: 22, unit: "片手kg相当", note: "三頭外側頭・馬蹄形" },
-      { id: "cable_oh_ext", name: "ケーブルオーバーヘッドエクステンション", sets: 3, reps: "12-15", target: 22, unit: "kg相当", note: "長頭の収縮" }
+      { id: "cable_pushdown", name: "ケーブルプレスダウン", sets: 3, reps: "10-12", target: 22, unit: "片手kg相当", note: "三頭外側頭・馬蹄形仕上げ" }
     ]
   },
   2: {
-    name: "SHOULDERS",
-    label: "肩",
-    focus: "三角筋 全方向 / 肩幅づくり",
-    exercises: [
-      { id: "shoulder_press", name: "ショルダープレス（ダンベル）", sets: 4, reps: "8-10", target: 22, unit: "片手kg", note: "三角筋前部・肩の厚み" },
-      { id: "side_raise", name: "サイドレイズ", sets: 5, reps: "12-15", target: 12, unit: "片手kg", note: "肩幅の要・中部繊維" },
-      { id: "rear_delt_fly", name: "リアデルトフライ", sets: 4, reps: "12-15", target: 10, unit: "片手kg", note: "後部・立体感の仕上げ" },
-      { id: "cable_side_raise", name: "ケーブルサイドレイズ", sets: 3, reps: "15", target: 10, unit: "片手kg相当", note: "張力抜けない中部追い込み" },
-      { id: "shrug", name: "シュラッグ", sets: 3, reps: "12", target: 35, unit: "片手kg", note: "僧帽筋・首回りの厚み" }
-    ]
-  },
-  3: {
-    name: "CHEST + TRICEPS",
-    label: "胸+三",
-    focus: "胸の厚み / 三頭補助",
-    exercises: [
-      { id: "bench_press", name: "ベンチプレス", sets: 4, reps: "6-10", target: 105, unit: "kg", note: "胸の王道・体重×1.1" },
-      { id: "incline_db_press", name: "インクラインダンベルプレス", sets: 4, reps: "8-10", target: 28, unit: "片手kg", note: "大胸筋上部・Tシャツ映え" },
-      { id: "db_fly", name: "ダンベルフライ", sets: 3, reps: "12-15", target: 17, unit: "片手kg", note: "大胸筋のストレッチ" },
-      { id: "dips", name: "ディップス", sets: 3, reps: "10", target: 10, unit: "加重kg", note: "胸下部＋三頭同時" }
-    ]
-  },
-  4: {
-    name: "BACK + BICEPS",
-    label: "背+二",
-    focus: "背中の幅と厚み / 二頭補助",
+    name: "PULL",
+    label: "引く",
+    focus: "背中・二頭・後肩 / 逆三角形と腕太さ",
     exercises: [
       { id: "lat_pulldown", name: "ラットプルダウン", sets: 4, reps: "8-10", target: 70, unit: "kg", note: "広背筋・逆三角形の幅" },
       { id: "bent_over_row", name: "ベントオーバーロウ", sets: 4, reps: "8-10", target: 70, unit: "kg", note: "背中の厚み" },
       { id: "seated_row", name: "シーテッドロウ", sets: 3, reps: "10-12", target: 60, unit: "kg", note: "僧帽筋中部・菱形筋" },
-      { id: "pullover", name: "プルオーバー", sets: 3, reps: "12", target: 22, unit: "片手kg", note: "広背筋＋大胸筋" },
+      { id: "rear_delt_fly", name: "リアデルトフライ", sets: 4, reps: "12-15", target: 10, unit: "片手kg", note: "三角筋後部・立体感" },
+      { id: "barbell_curl", name: "バーベルカール", sets: 4, reps: "8-10", target: 45, unit: "kg", note: "二頭ミッドレンジの王道" },
       { id: "hammer_curl", name: "ハンマーカール", sets: 4, reps: "10", target: 17, unit: "片手kg", note: "青木さん必須・前腕＋上腕筋" }
-    ]
-  },
-  5: {
-    name: "ARMS B",
-    label: "腕B",
-    focus: "Day1と異なる角度 / 腕の凹凸感",
-    exercises: [
-      { id: "preacher_curl", name: "プリーチャーカール", sets: 4, reps: "8-10", target: 30, unit: "EZバーkg", note: "反動使えない純粋二頭刺激" },
-      { id: "concentration_curl", name: "コンセントレーションカール", sets: 4, reps: "10-12", target: 14, unit: "片手kg", note: "ピーク収縮特化・力こぶ" },
-      { id: "ez_curl", name: "EZバーカール", sets: 3, reps: "10", target: 35, unit: "kg", note: "手首優しい・補助" },
-      { id: "close_grip_bench", name: "クローズグリップベンチプレス", sets: 4, reps: "8-10", target: 70, unit: "kg", note: "三頭に高重量・腕太さの要" },
-      { id: "oh_tricep_ext", name: "オーバーヘッドエクステンション", sets: 4, reps: "10", target: 28, unit: "EZバーkg", note: "長頭ストレッチ" },
-      { id: "rope_pushdown", name: "ロープ プレスダウン", sets: 3, reps: "12-15", target: 17, unit: "片手kg相当", note: "外側頭コントラクト" }
-    ]
-  },
-  6: {
-    name: "CHEST + SHOULDERS + FOREARMS",
-    label: "胸+肩+前",
-    focus: "胸週2回目 / 前腕・肩追い込み",
-    exercises: [
-      { id: "incline_barbell", name: "インクラインバーベルプレス", sets: 4, reps: "8-12", target: 80, unit: "kg", note: "胸の週2回目・上部" },
-      { id: "db_press", name: "ダンベルプレス", sets: 3, reps: "10-12", target: 25, unit: "片手kg", note: "胸ストレッチ" },
-      { id: "side_raise_high", name: "サイドレイズ（高回数）", sets: 5, reps: "15-20", target: 8, unit: "片手kg", note: "肩幅追い込み第2弾" },
-      { id: "wrist_curl", name: "リストカール", sets: 3, reps: "15", target: 35, unit: "kg", note: "前腕内側" },
-      { id: "reverse_wrist_curl", name: "リバースリストカール", sets: 3, reps: "15", target: 17, unit: "kg", note: "前腕外側・Tシャツ映え" }
     ]
   }
 };
@@ -1250,7 +1203,7 @@ function renderDaySelector() {
   const sel = document.getElementById('daySelector');
   sel.innerHTML = Object.entries(MENU).map(([num, day]) => `
     <button class="day-btn ${currentDay == num ? 'active' : ''}" onclick="selectDay(${num})">
-      <span class="day-num">DAY${num}</span>
+      <span class="day-num">${day.name}</span>
       <span class="day-label">${day.label}</span>
     </button>
   `).join('');
@@ -1577,7 +1530,7 @@ function renderGoals() {
   filterEl.innerHTML = `
     <button class="goal-filter-btn ${goalFilterDay === 0 ? 'active' : ''}" onclick="setGoalFilter(0)">ALL</button>
     ${Object.entries(MENU).map(([num, day]) => `
-      <button class="goal-filter-btn ${goalFilterDay == num ? 'active' : ''}" onclick="setGoalFilter(${num})">DAY${num} ${day.label}</button>
+      <button class="goal-filter-btn ${goalFilterDay == num ? 'active' : ''}" onclick="setGoalFilter(${num})">${day.name}</button>
     `).join('')}
   `;
   const allEx = getAllExercises();
